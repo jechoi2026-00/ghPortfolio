@@ -1,0 +1,39 @@
+name: Deploy Static Site to Pages
+
+on:
+  push:
+    branches: [ "main" ] # main 브랜치에 푸시될 때마다 실행
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 동시에 여러 배포가 진행되지 않도록 설정 (안정성)
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # index.html이 저장소의 어느 폴더에 있는지 지정하세요.
+          # 루트 폴더에 있다면 '.' 를 그대로 두면 됩니다.
+          path: '.' 
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
