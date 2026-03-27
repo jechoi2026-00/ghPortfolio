@@ -1,4 +1,4 @@
-name: Static HTML Deploy
+name: Deploy Static Website
 
 on:
   push:
@@ -9,9 +9,9 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+# 환경 변수를 추가하여 Node.js 24를 미리 강제로 사용합니다 (경고 제거용)
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   deploy:
@@ -24,12 +24,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5 # 최신 버전으로 업데이트
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # index.html이 있는 위치 (루트라면 '.')
           path: '.' 
 
       - name: Deploy to GitHub Pages
