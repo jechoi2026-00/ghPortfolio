@@ -1,15 +1,14 @@
-name: Deploy Static Site to Pages
+name: Static HTML Deploy
 
 on:
   push:
-    branches: [ "main" ] # main 브랜치에 푸시될 때마다 실행
+    branches: ["main"]
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 동시에 여러 배포가 진행되지 않도록 설정 (안정성)
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -30,8 +29,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # index.html이 저장소의 어느 폴더에 있는지 지정하세요.
-          # 루트 폴더에 있다면 '.' 를 그대로 두면 됩니다.
+          # index.html이 있는 위치 (루트라면 '.')
           path: '.' 
 
       - name: Deploy to GitHub Pages
