@@ -9,10 +9,7 @@ permissions:
   pages: write
   id-token: write
 
-# 환경 변수를 추가하여 Node.js 24를 미리 강제로 사용합니다 (경고 제거용)
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
+# 2026년 기준, 강제 실행 옵션 없이도 자연스럽게 작동하도록 설정
 jobs:
   deploy:
     environment:
@@ -21,13 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # v4는 내부적으로 업데이트를 지원함
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5 # 최신 버전으로 업데이트
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        # v4로 버전을 올리면 Node.js 24 환경에 최적화됩니다.
+        uses: actions/upload-pages-artifact@v3 
         with:
           path: '.' 
 
